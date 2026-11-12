@@ -2,6 +2,8 @@
 
 **Valcen makes existing AI tools multiplayer for enterprise teams — with shared context and agent handoffs.**
 
+Demo: https://drive.google.com/file/d/15Vi26lRgpa7umZjWvyuC5M1SAl6fRc26/view?usp=sharing
+
 A desktop sidebar that turns individual AI work into editable team memory. Teammates and their AI agents build on each other's work using shared, reviewable project memory. Each person keeps their own private memory.
 
 This repo contains the Valcen demo (Vite + React + TypeScript + Tailwind + Electron). It renders three surfaces:
