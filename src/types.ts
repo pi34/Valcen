@@ -29,6 +29,10 @@ export type AgentEvent = {
   text: string;
   decisionId?: string;
   at: string;
+  // Interpretability trace: plain-English reason the agent pulled this,
+  // plus the specific phrases that matched between the agent's task and the decision.
+  why?: string;
+  matched?: string[];
 };
 
 export type RunningAgent = {
@@ -36,5 +40,8 @@ export type RunningAgent = {
   owner: string;
   name: string;
   task: string;
-  state: 'thinking' | 'retrieving' | 'writing' | 'idle';
+  state: 'thinking' | 'retrieving' | 'writing' | 'idle' | 'paused';
+  tokensPerMin?: number;
+  costToday?: number;
+  risk?: 'calm' | 'warm' | 'hot';
 };

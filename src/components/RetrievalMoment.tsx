@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { Sparkles, GitPullRequest } from 'lucide-react';
+import { Sparkles, GitPullRequest, Eye } from 'lucide-react';
 import { useStore } from '../store';
 import { Avatar } from './Avatar';
 import { TEAMMATES } from '../data/demoData';
@@ -13,6 +13,8 @@ export function RetrievalMoment() {
     agentName: string;
     text: string;
     decisionTitle: string;
+    why?: string;
+    matched?: string[];
   }>(null);
   const seen = useRef<Set<string>>(new Set());
 
@@ -28,8 +30,10 @@ export function RetrievalMoment() {
       agentName: latest.agentName,
       text: latest.text,
       decisionTitle: match?.[1] ?? latest.text,
+      why: latest.why,
+      matched: latest.matched,
     });
-    const id = setTimeout(() => setCurrent(null), 5200);
+    const id = setTimeout(() => setCurrent(null), latest.why ? 6400 : 5200);
     return () => clearTimeout(id);
   }, [events]);
 
@@ -111,10 +115,64 @@ export function RetrievalMoment() {
                   <span>{t.name === 'Manahil' ? 'PR #1189 · happyrobots/web' : 'referenced in agent context'}</span>
                 </div>
               </div>
+
+              {current.why && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6, duration: 0.5 }}
+                  className="mt-3 rounded-xl p-3.5 border border-dashed"
+                  style={{
+                    borderColor: 'rgba(232,184,106,0.35)',
+                    background: 'rgba(232,184,106,0.05)',
+                  }}
+                >
+                  <div className="flex items-center gap-1.5 mb-1.5">
+                    <Eye size={11} className="text-amber-glow" />
+                    <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-amber-glow/90">
+                      Why this · interpretable trace
+                    </span>
+                  </div>
+                  <div className="text-[12px] text-white/80 leading-[1.5]">
+                    <HighlightedWhy text={current.why} matched={current.matched ?? []} />
+                  </div>
+                </motion.div>
+              )}
             </div>
           </motion.div>
         </>
       )}
     </AnimatePresence>
+  );
+}
+
+function HighlightedWhy({ text, matched }: { text: string; matched: string[] }) {
+  const escaped = matched
+    .map((m) => m.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    .filter(Boolean);
+  if (escaped.length === 0) return <>{text}</>;
+  // split() with a capturing group returns alternating [non-match, match, non-match, match, ...]
+  const parts = text.split(new RegExp(`(${escaped.join('|')})`, 'gi'));
+  return (
+    <>
+      {parts.map((part, i) =>
+        i % 2 === 1 ? (
+          <span
+            key={i}
+            className="font-semibold"
+            style={{
+              color: '#F5D28E',
+              background: 'rgba(232,184,106,0.14)',
+              padding: '0 3px',
+              borderRadius: 3,
+            }}
+          >
+            {part}
+          </span>
+        ) : (
+          <span key={i}>{part}</span>
+        ),
+      )}
+    </>
   );
 }

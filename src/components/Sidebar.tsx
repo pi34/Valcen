@@ -6,6 +6,7 @@ import { AvatarStack } from './Avatar';
 import { DropArea } from './DropArea';
 import { ReviewQueue } from './ReviewQueue';
 import { ActivityFeed } from './ActivityFeed';
+import { RunningAgents } from './RunningAgents';
 import { SupermodeButton } from './Supermode';
 import { ContextGlyph } from './MenuBar';
 import { inElectron } from '../electron-api';
@@ -93,10 +94,11 @@ export function Sidebar({ asWindow = false }: { asWindow?: boolean }) {
 
 function ScrollArea({ onApprove }: { onApprove: (d: Decision) => void }) {
   return (
-    <div className="flex-1 overflow-y-auto scrollbar-thin px-4 pb-4 space-y-5">
+    <div className="flex-1 overflow-y-auto scrollbar-thin px-4 pb-4 space-y-4">
       <ProjectBanner />
       <DropArea />
       <ReviewQueue onApprove={onApprove} />
+      <RunningAgents />
       <ActivityFeed />
       <SupermodeRow />
     </div>
@@ -177,13 +179,12 @@ function ProjectBanner() {
 }
 
 function SupermodeRow() {
-  const { supermodeRecording } = useStore();
-  if (supermodeRecording) {
-    return <SupermodeButton />;
-  }
   return (
-    <div className="pt-1 border-t border-white/5">
-      <SupermodeButton compact />
+    <div>
+      <h3 className="text-[11px] uppercase tracking-[0.18em] text-white/40 font-semibold mb-2.5">
+        Supermode
+      </h3>
+      <SupermodeButton />
     </div>
   );
 }

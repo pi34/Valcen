@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Paperclip, Image as ImageIcon, ArrowUp, Sparkles } from 'lucide-react';
 import { useStore } from '../store';
-import { DEMO_DECISION_SUGGESTIONS } from '../data/demoData';
 import type { Decision } from '../types';
 
 export function DropArea() {
@@ -39,11 +38,6 @@ export function DropArea() {
       addPending(decision);
       setExtracting(false);
     }, 900);
-  }
-
-  function useSuggestion(s: string) {
-    setText(s);
-    taRef.current?.focus();
   }
 
   const prominent = pendingReview.length === 0 && !text && !extracting;
@@ -123,29 +117,6 @@ export function DropArea() {
         </div>
       </motion.div>
 
-      {prominent && (
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="mt-2.5"
-        >
-          <div className="text-[10px] text-white/35 uppercase tracking-wider mb-1.5">
-            Or try one of these
-          </div>
-          <div className="flex flex-col gap-1.5">
-            {DEMO_DECISION_SUGGESTIONS.slice(0, 2).map((s) => (
-              <button
-                key={s}
-                onClick={() => useSuggestion(s)}
-                className="text-left text-[12px] px-3 py-2 rounded-xl border border-white/8 bg-white/[0.02] text-white/65 hover:text-white/95 hover:bg-white/[0.05] hover:border-white/15 transition-all leading-[1.45]"
-              >
-                {s}
-              </button>
-            ))}
-          </div>
-        </motion.div>
-      )}
     </div>
   );
 }

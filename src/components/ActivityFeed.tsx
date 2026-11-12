@@ -91,6 +91,27 @@ export function ActivityFeed() {
                         ev.text
                       )}
                     </div>
+                    {isRetrieval && ev.matched && ev.matched.length > 0 && (
+                      <div className="mt-1.5 flex items-center gap-1.5 flex-wrap">
+                        <span className="text-[9.5px] uppercase tracking-wider text-white/40 font-semibold">
+                          why ·
+                        </span>
+                        {ev.matched.slice(0, 4).map((m) => (
+                          <span
+                            key={m}
+                            className="text-[10px] font-mono px-1.5 py-[1px] rounded-full"
+                            style={{
+                              background: 'rgba(232,184,106,0.1)',
+                              color: 'rgba(245,210,142,0.9)',
+                              border: '1px solid rgba(232,184,106,0.2)',
+                            }}
+                            title={ev.why}
+                          >
+                            {m}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </motion.div>

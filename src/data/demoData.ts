@@ -46,13 +46,43 @@ export const INITIAL_EVENTS: AgentEvent[] = [
     text: 'retrieved "Guest checkout stays" while reviewing PR #1189.',
     decisionId: 'd-01',
     at: '6 hr ago',
+    why:
+      'PR #1189 edits checkout/guest.tsx. This decision governs the guest-checkout gate — matched on guest, checkout, and tap.',
+    matched: ['guest', 'checkout', 'tap'],
   },
 ];
 
 export const RUNNING_AGENTS: RunningAgent[] = [
-  { id: 'ra-1', owner: 'riya', name: 'Scout', task: 'drafting checkout spec v4', state: 'writing' },
-  { id: 'ra-2', owner: 'manahil', name: 'Harbor', task: 'reviewing PR #1189', state: 'thinking' },
-  { id: 'ra-3', owner: 'huzaifa', name: 'Loom', task: 'generating form mock', state: 'idle' },
+  {
+    id: 'ra-1',
+    owner: 'riya',
+    name: 'Scout',
+    task: 'crawling repo for stale guest-auth references · 14h running',
+    state: 'writing',
+    tokensPerMin: 2340,
+    costToday: 14.2,
+    risk: 'hot',
+  },
+  {
+    id: 'ra-2',
+    owner: 'manahil',
+    name: 'Harbor',
+    task: 'reviewing PR #1189',
+    state: 'thinking',
+    tokensPerMin: 410,
+    costToday: 2.8,
+    risk: 'calm',
+  },
+  {
+    id: 'ra-3',
+    owner: 'huzaifa',
+    name: 'Loom',
+    task: 'generating form mock',
+    state: 'idle',
+    tokensPerMin: 0,
+    costToday: 0.9,
+    risk: 'calm',
+  },
 ];
 
 export const PROJECT = {
